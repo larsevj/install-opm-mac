@@ -6,7 +6,7 @@
 - **Xcode Command Line Tools**: `xcode-select --install`
 - Install required packages:
   ```bash
-  brew install cmake boost open-mpi pkg-config fmt
+  brew install cmake boost open-mpi pkg-config fmt suite-sparse
   ```
 
 ## Build steps
