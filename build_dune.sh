@@ -37,7 +37,8 @@ for m in $modules; do
         if [ ! -d "$builddir" ]; then
             mkdir "$builddir"
             cd "$builddir"
-            cmake -DCMAKE_INSTALL_PREFIX="$install_prefix" ".."
+            cmake -DCMAKE_INSTALL_PREFIX="$install_prefix" \
+                  -DDUNE_ENABLE_PYTHONBINDINGS=OFF ".."
             make -j "$parallel_build_tasks"
             make install
         else
