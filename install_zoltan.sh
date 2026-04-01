@@ -1,22 +1,32 @@
 #!/bin/bash
+set -e
 
-# Edit the next two variables to match your wishes and system.
-#install_prefix="/Users/FCUR/Trilinos"
-install_prefix="/Users/FCUR/duneinstall"
-parallel_build_tasks=4
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
-git clone https://github.com/trilinos/Trilinos.git
+parallel_build_tasks="${PARALLEL_JOBS:-6}"
+
+BREW_PREFIX=/opt/homebrew
+
+cd "$SCRIPT_DIR"
+
+if [ ! -d "Trilinos" ]; then
+    git clone https://github.com/trilinos/Trilinos.git
+fi
+
 cd Trilinos
-git checkout trilinos-release-12-8-1
-mkdir build
+git checkout trilinos-release-17-0-0 2>/dev/null || true
+
+if [ ! -d "build" ]; then
+    mkdir build
+fi
+
 (
   cd build
   cmake \
-    -D CMAKE_INSTALL_PREFIX=$install_prefix \
     -D TPL_ENABLE_MPI:BOOL=ON \
-    -D MPI_BASE_DIR:PATH=/usr/local \
+    -D MPI_BASE_DIR:PATH="$BREW_PREFIX" \
     -D Trilinos_ENABLE_ALL_PACKAGES:BOOL=OFF \
     -D Trilinos_ENABLE_Zoltan:BOOL=ON \
     ../
-  make -j $parallel_build_tasks
+  make -j "$parallel_build_tasks"
 )

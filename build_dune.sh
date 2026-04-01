@@ -1,20 +1,25 @@
 #!/bin/bash
+set -e
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 # Edit the next two variables to match your wishes and system.
-install_prefix="/Users/FCUR/duneinstall"
-parallel_build_tasks=4
+install_prefix="${INSTALL_PREFIX:-$SCRIPT_DIR/local}"
+parallel_build_tasks="${PARALLEL_JOBS:-6}"
 
 # Set of modules to build
 modules="dune-common dune-geometry dune-grid dune-istl"
 
-# Clone modules, check out the 2.9 release.
+cd "$SCRIPT_DIR"
+
+# Clone modules, check out the 2.11 release.
 for m in $modules; do
     echo "==================================================="
     echo "=        Cloning module: $m"
     echo "==================================================="
     (
         if [ ! -d "$m" ]; then
-            git clone -b releases/2.9 https://gitlab.dune-project.org/core/$m.git
+            git clone -b releases/2.11 https://gitlab.dune-project.org/core/$m.git
         else
             echo "******** Skipping $m, module already cloned."
         fi
@@ -32,8 +37,8 @@ for m in $modules; do
         if [ ! -d "$builddir" ]; then
             mkdir "$builddir"
             cd "$builddir"
-            cmake -DCMAKE_INSTALL_PREFIX=$install_prefix ".."
-            make -j $parallel_build_tasks
+            cmake -DCMAKE_INSTALL_PREFIX="$install_prefix" ".."
+            make -j "$parallel_build_tasks"
             make install
         else
             echo "******** Skipping $m, build dir $builddir already exists."

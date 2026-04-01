@@ -1,6 +1,0 @@
-# This needs to be put in ERT.
-# Specifically in the folder /src/ert/shared/share/ert/forward-models/res/script/
-versions:
-  '2024.04-pre':  # without quotes this will be interpreted as a number
-    scalar:
-      executable: /Users/FCUR/opm-simulators/build/bin/flow 

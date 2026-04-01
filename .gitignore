@@ -1,0 +1,13 @@
+# Cloned dependency sources and build artifacts
+Trilinos/
+dune-common/
+dune-geometry/
+dune-grid/
+dune-istl/
+opm-common/
+opm-grid/
+opm-simulators/
+opm-upscaling/
+
+# Install prefix
+local/
