@@ -11,12 +11,16 @@ BREW_PREFIX=/opt/homebrew
 
 cd "$SCRIPT_DIR"
 
+OPM_TAG="release/2026.04/final"
+
 for repo in opm-common opm-grid opm-simulators opm-upscaling
 do
     echo "=== Cloning and building module: $repo"
 
     if [ ! -d "$repo" ]; then
         git clone https://github.com/OPM/$repo.git
+        git -C "$repo" fetch --tags
+        git -C "$repo" checkout "$OPM_TAG"
     else
         echo "******** Skipping clone of $repo, directory already exists."
     fi

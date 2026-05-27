@@ -14,7 +14,7 @@ if [ ! -d "Trilinos" ]; then
 fi
 
 cd Trilinos
-git checkout trilinos-release-17-0-0 2>/dev/null || true
+git checkout trilinos-release-17-1-0 2>/dev/null || true
 
 if [ ! -d "build" ]; then
     mkdir build
